@@ -1,0 +1,32 @@
+<mat-card>
+  <h1 class="text-center">Form Builder</h1>
+  <button mat-stroked-button color="primary" (click)="addNewQuestion()">
+    <mat-icon aria-hidden="false" aria-label="Remove">add</mat-icon>
+    Add New Question
+  </button>
+
+  <form *ngIf="formGroup.get('questions')?.value.length > 0" (ngSubmit)="onSubmit(formGroup)" [formGroup]="formGroup">
+    <div formArrayName="questions">
+      <ng-container *ngFor="let question of questionForms.controls; let i = index" [formGroupName]="i">
+        <ng-container [ngSwitch]="question.get('questionType')?.value">
+          <div class="mb-3" *ngSwitchCase="'checkbox'">
+            <p class="checkbox-text">{{question.get('question')?.value}}</p>
+            <div *ngFor="let option of question.get('options')?.value; let j = index">
+                <mat-checkbox [checked]="option.checked" (change)="checkboxChanged(option.checked, i, j )">{{option.optionName}}</mat-checkbox>
+            </div>
+
+          </div>
+          <div *ngSwitchCase="'textarea'">
+            <mat-form-field class="w-100">
+              <mat-label>{{question.get('question')?.value}}</mat-label>
+              <textarea matInput formControlName="answer"></textarea>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="text-right">
+      <button mat-raised-button color="primary" type="submit">Review my answers</button>
+    </div>
+  </form>
+</mat-card>

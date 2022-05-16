@@ -1,0 +1,24 @@
+<mat-card>
+  <h1 class="text-center">Review My Answers</h1>
+  <div *ngFor="let question of questions">
+    <ng-container [ngSwitch]="question.questionType">
+      <div class="mt-3" *ngSwitchCase="'checkbox'">
+        <p style="font-weight: bold">{{question?.question}}</p>
+        <ul>
+          <ng-container  *ngFor="let option of question?.options">
+            <li class="mb-0" *ngIf="option.checked">{{option.optionName}}</li>
+          </ng-container>
+        </ul>
+      </div>
+      <div class="mt-3" *ngSwitchCase="'textarea'">
+        <p style="font-weight: bold">{{question?.question}}</p>
+        <p class="mb-0"> {{question?.answer}}</p>
+      </div>
+    </ng-container>
+  </div>
+
+  <button class="mt-3" mat-stroked-button color="primary" [routerLink]="'/form/builder'">
+    <mat-icon aria-hidden="false" aria-label="Remove">arrow_back</mat-icon>
+    Back to Forms Builder
+  </button>
+</mat-card>
